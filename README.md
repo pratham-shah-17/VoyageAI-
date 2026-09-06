@@ -6,11 +6,16 @@
   <b>An AI-powered, agentic travel itinerary planner built with Python, Streamlit, and Google Gemini LLMs.</b>
 </p>
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen.svg?style=for-the-badge&logo=github)](https://pratham-shah-17.github.io/VoyageAI-/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30%2B-FF4B4B.svg)](https://streamlit.io/)
 [![Google Gemini API](https://img.shields.io/badge/Google%20Gemini-2.5%20Flash-4285F4.svg)](https://ai.google.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Author: Pratham Shah](https://img.shields.io/badge/Author-Pratham%20Shah-brightgreen.svg)](https://github.com/pratham-shah-17)
+
+---
+
+### 🌐 Live Web Demo: [https://pratham-shah-17.github.io/VoyageAI-/](https://pratham-shah-17.github.io/VoyageAI-/)
 
 ---
 
