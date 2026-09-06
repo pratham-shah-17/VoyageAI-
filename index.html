@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoyageAI – Smart Agentic Travel Planner</title>
+    <meta name="description" content="AI-powered agentic travel planner generating personalized day-by-day itineraries using Google Gemini AI.">
+    <meta name="author" content="Pratham Shah">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Glow Animations -->
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <div class="app-container">
+        <!-- Hero Header -->
+        <header class="hero-section">
+            <div class="brand-badge">✨ AGENTIC AI TRAVEL ENGINE</div>
+            <h1 class="hero-title">VoyageAI</h1>
+            <p class="hero-subtitle">Smart Agentic Travel Planner — Powered by Generative AI & Google Gemini</p>
+            
+            <button class="settings-btn" id="settingsToggleBtn">
+                ⚙️ API Key Settings
+            </button>
+
+            <!-- API Key Settings Drawer -->
+            <div class="api-settings-panel" id="apiSettingsPanel">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label class="form-label" for="apiKeyInput">Google Gemini API Key (Optional)</label>
+                    <input type="password" id="apiKeyInput" class="input-text" placeholder="AIzaSy..." autocomplete="off">
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+                    Enter your Gemini API key to enable live LLM response generation. If left blank, VoyageAI automatically uses smart fallback itineraries.
+                </p>
+                <button class="btn-primary" id="saveApiKeyBtn" style="padding: 8px 16px; font-size: 0.88rem;">
+                    Save API Key
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Planner Grid -->
+        <main class="planner-grid">
+            <!-- Left Input Form Column -->
+            <section class="glass-card">
+                <h2 class="card-title">🗺️ Trip Details</h2>
+
+                <!-- Destination Input -->
+                <div class="form-group">
+                    <label class="form-label" for="destInput">📍 Destination City / Region</label>
+                    <input type="text" id="destInput" class="input-text" value="Kyoto, Japan" placeholder="e.g. Tokyo, Paris, Rome, Bali">
+                    <div class="chips-group">
+                        <span class="chip" data-dest="Kyoto, Japan">Kyoto</span>
+                        <span class="chip" data-dest="Paris, France">Paris</span>
+                        <span class="chip" data-dest="Tokyo, Japan">Tokyo</span>
+                        <span class="chip" data-dest="Rome, Italy">Rome</span>
+                        <span class="chip" data-dest="Bali, Indonesia">Bali</span>
+                    </div>
+                </div>
+
+                <!-- Duration Slider -->
+                <div class="form-group">
+                    <div class="range-header">
+                        <label class="form-label">🗓️ Duration</label>
+                        <span class="range-badge" id="daysBadge">3 Days</span>
+                    </div>
+                    <input type="range" id="daysSlider" class="input-range" min="1" max="14" value="3">
+                </div>
+
+                <!-- Budget Selection -->
+                <div class="form-group">
+                    <label class="form-label">💰 Budget Tier</label>
+                    <div class="option-grid">
+                        <button class="option-btn budget-option" data-value="Budget 💰">Budget</button>
+                        <button class="option-btn budget-option active" data-value="Mid-Range 💳">Mid-Range</button>
+                        <button class="option-btn budget-option" data-value="Luxury ✨">Luxury</button>
+                    </div>
+                </div>
+
+                <!-- Travel Vibe Selection -->
+                <div class="form-group">
+                    <label class="form-label">✨ Travel Vibe</label>
+                    <div class="vibe-grid">
+                        <button class="option-btn vibe-option" data-value="Foodie & Culinary 🍕">🍕 Foodie</button>
+                        <button class="option-btn vibe-option active" data-value="Cultural & Historic 🏛️">🏛️ Cultural</button>
+                        <button class="option-btn vibe-option" data-value="Adventure & Nature 🏔️">🏔️ Adventure</button>
+                        <button class="option-btn vibe-option" data-value="Relaxed & Wellness 🧘‍♀️">🧘‍♀️ Relaxed</button>
+                    </div>
+                </div>
+
+                <!-- Special Notes -->
+                <div class="form-group">
+                    <label class="form-label" for="notesInput">📝 Preferences / Notes (Optional)</label>
+                    <textarea id="notesInput" class="textarea-input" rows="2" placeholder="e.g. Vegetarian food options, family friendly pace..."></textarea>
+                </div>
+
+                <!-- Action Button -->
+                <button class="btn-primary" id="generateBtn">
+                    🚀 Generate Smart Itinerary
+                </button>
+            </section>
+
+            <!-- Right Output Display Column -->
+            <section class="glass-card output-area">
+                <!-- Placeholder State -->
+                <div class="placeholder-state" id="placeholderState">
+                    <div class="placeholder-icon">✈️</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Ready to Plan Your Next Journey</h3>
+                    <p style="font-size: 0.9rem;">Fill in your destination and preferences on the left, then click <b>Generate Smart Itinerary</b>.</p>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <div class="loading-text">VoyageAI is Orchestrating Your Trip...</div>
+                    <div class="loading-subtext" id="loadingSubtext">Connecting to AI engine...</div>
+                </div>
+
+                <!-- Itinerary Display State -->
+                <div id="itineraryDisplay" style="display: none;">
+                    <div style="margin-bottom: 20px;">
+                        <h2 id="displayDest" style="font-size: 1.8rem; font-weight: 800; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Destination</h2>
+                        <p id="displaySummary" style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 4px;"></p>
+                    </div>
+
+                    <!-- Metrics Banner -->
+                    <div class="metrics-banner">
+                        <div class="metric-card">
+                            <div class="metric-val" id="metricDays">3 Days</div>
+                            <div class="metric-lbl">Duration</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val" id="metricBudget">Mid-Range</div>
+                            <div class="metric-lbl">Budget</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val" id="metricVibe">Cultural</div>
+                            <div class="metric-lbl">Vibe</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-val" id="metricCost">$450 - $800</div>
+                            <div class="metric-lbl">Est. Total</div>
+                        </div>
+                    </div>
+
+                    <!-- Days Navigation Tabs -->
+                    <div class="tabs-nav" id="tabsNav"></div>
+
+                    <!-- Selected Day Activities Container -->
+                    <div id="dayDetailsContainer"></div>
+
+                    <!-- Insider Tips Section -->
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border-glass);">
+                        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">💡 Insider Travel Advice</h3>
+                        <ul id="tipsList" style="padding-left: 20px; color: var(--text-secondary); font-size: 0.9rem;"></ul>
+                    </div>
+
+                    <!-- Export Bar -->
+                    <div class="export-bar">
+                        <button class="btn-export" id="exportMdBtn">📄 Download Markdown (.md)</button>
+                        <button class="btn-export" id="exportPdfBtn">📕 Print / Save PDF (.pdf)</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            VoyageAI — Developed with ❤️ by <a href="https://github.com/pratham-shah-17" target="_blank">Pratham Shah</a> | Released under MIT License
+        </footer>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
